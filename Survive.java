@@ -5,14 +5,19 @@
  */
 package Responsi2;
 
+import java.util.*;
+
 /**
  *
  * @author Asus
  */
 public class Survive {
+    int selector;
+    
     public static void main(String[] args) {
         Game_Engine mainkan = new Game_Engine();
         mainkan.menu();
+        
     }
     
 }
