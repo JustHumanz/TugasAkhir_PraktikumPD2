@@ -13,13 +13,11 @@ import java.util.*;
 
 class Character implements Comparable<Character> { //class untuk membuat object character
 
-//    int hp;
     int index;
     int comp;
 
     public Character(int i, int c) {
         index = i;
-//        hp = h;
         comp = c;
 
     }
@@ -47,6 +45,11 @@ public class Game_Engine {
     int current;
     int selector;
     Scanner input = new Scanner(System.in);
+    Hashtable charaHash = new Hashtable();
+    int loopChance = 3;
+    LinkedList<Character> charaStat = new LinkedList<Character>();
+    char ubah;
+    int temp;
 
     void menu() {
         Game_Engine run = new Game_Engine();
@@ -63,7 +66,7 @@ public class Game_Engine {
                 run.characterSelect(); //masuk ke chara. select lalu start game
             } else if (selector == 2) {
                 //run.survivorDB();
-                System.out.println("Masuk ke db yang isinya list urutan game terakhir");
+                System.out.println("Masuk ke db yang isinya karakter yang digunakan dan jumlah turn karakter yang terakhir");
             } else if (selector == 3) {
                 run.rules(); //masuk ke fungsi rules yang isinya aturan + cara kerja game
             } else if (selector == 4) {
@@ -82,8 +85,7 @@ public class Game_Engine {
         }
     } // menu utama
 
-    void characterStat() {
-        LinkedList<Character> charaStat = new LinkedList<Character>();
+    void characterStart() {
         //charaStat akan menyimpan status hp dari masing - masing karakter
         charaStat.add(new Character(1, 0));
         charaStat.add(new Character(2, 0));
@@ -91,9 +93,12 @@ public class Game_Engine {
         charaStat.add(new Character(4, 0));
 
     } //func. untuk inisialisasi status
+//
+//    void characterSet() {
+//        charaStat.set(current, temp);
+//    }
 
     void charaHash() {
-        Hashtable charaHash = new Hashtable();
         charaHash.put(1, "Ferguso");
         charaHash.put(2, "Fernando");
         charaHash.put(3, "Alonso");
@@ -104,8 +109,8 @@ public class Game_Engine {
 
     void characterSelect() {
         Game_Engine run = new Game_Engine();
+        charaHash();
         try {
-            Hashtable charaHash = new Hashtable();
             System.out.println("");
             System.out.println("=============================");
             System.out.println("--- Select Your Character ---");
@@ -117,37 +122,30 @@ public class Game_Engine {
             System.out.println("5. Custom Character");
             System.out.print("Pilih : ");
             selector = input.nextInt();
-            System.out.println("Anda akan bermain sebagai " + charaHash.get(selector) + " !");
-            //pada saat index Hashtable dipanggil, maka index ini juga dapat menampilkan nama pemain
-            run.randomNumber();
-//            run.firstQueue();
+            System.out.println("Selector skrg " + selector);
+            current = selector;
+            System.out.println("Current skrg " + current);
+            if (selector == 5) {
+                System.out.println("Masuk ke db untuk edit nama karakter");
+            } else {
+                System.out.println("Anda akan bermain sebagai " + charaHash.get(selector) + " !");
+                randomNumber();
+                //pada saat index Hashtable dipanggil, maka index ini juga dapat menampilkan nama pemain
+            }
 
+//            run.firstQueue();
         } catch (InputMismatchException e2) {
             System.out.println("Pilihan anda tidak ada di daftar atau format salah. Silahkan pilih kembali!");
         }
     } // func. untuk pilih karakter
 
     void firstQueue() {
-        int roll;
-        double min = 1;
-        double max = 5;
-        boolean play = true;
-        LinkedList<Character> charaStat = new LinkedList<Character>();
-        Hashtable charaHash = new Hashtable();
-        System.out.println("Masukkan 1 untuk acak angka");
-        roll = input.nextInt();
-        if (roll == 1) {
-            int temp = (int) ((int) (Math.random() * ((max - min) + 1)) + min);
-            System.out.println(charaStat.get(selector).comp);
-            charaStat.get(selector).comp = temp;
-            System.out.println(temp);
-            System.out.println(charaStat.get(selector).comp);
-            System.out.println("");
-            System.out.println("Angka " + charaHash.get(selector) + "pada round ini adalah = " + temp);
-            System.out.println("--------------------------------------");
-            System.out.println("");
-        } else {
-            System.out.println("Berhenti mengulang");
+        charaStat.clear();
+        int max = 5;
+        int min = 1;
+        for (int awal = 1; awal <= 4; awal++) {
+            int randomize = temp = (int) (Math.random() * ((max - min) + 1)) + min;
+            charaStat.add(new Character(awal, temp));
         }
 
         //method untuk penempatan linkedlist awal saat game dimulai
@@ -185,27 +183,49 @@ public class Game_Engine {
         int roll;
         int min = 1;
         int max = 5;
-        boolean play = true;
-        while (play) {
-            System.out.println("Masukkan 1 untuk acak angka");
-            roll = input.nextInt();
-            if (roll == 1) {
-                int temp;
-                temp = (int) (Math.random() * ((max - min) + 1)) + min;
-                System.out.println("Angka anda round ini adalah = " + temp);
-                System.out.println("--------------------------------------");
-                System.out.println("");
-            } else {
-                System.out.println("Berhenti mengulang");
-            }
+        System.out.println("==============");
+        try {
+            do {
+                if (loopChance != 0) {
+                    System.out.println("--------------------------------------");
+                    System.out.println("Anda punya " + loopChance + " kesempatan acak angka!");
+                    charaStat.add(new Character(current, temp)); //menambahkan list
+                    System.out.println("Isi temp sebelum random " + temp);
+                    System.out.println("Isi comp sebelum random " + charaStat.element().comp);
+                    temp = (int) (Math.random() * ((max - min) + 1)) + min;
+                    charaStat.element().comp = temp;
+                    System.out.println("Nilai temp skrg " + temp);
+                    System.out.println("Nilai comp skrg " + charaStat.element().comp);
+                    System.out.println("Angka " + charaHash.get(current) + " round ini adalah = " + temp);
+                    System.out.println("--------------------------------------");
+                    loopChance -= 1;
+                    System.out.println("Acak lagi? Y/N");
+                    //String sisa = input.nextLine();
+                    ubah = input.next().charAt(0);
+                    confirmLoop();
+                } else if (loopChance == 0) {
+                    System.out.println("Kesempatan acak ronde ini habis!");
+                    temp = (int) (Math.random() * ((max - min) + 1)) + min;
+                    System.out.println("Angka " + charaHash.get(current) + " round ini adalah = " + temp);
+                    System.out.println("--------------------------------------");
+
+                    //sort();
+                }
+            } while (loopChance != 0);
+        } catch (InputMismatchException e3) {
+            System.out.println("Berhenti mengulang");
+
         }
-    } // func. acak angka
+    }
 
-    void fight() {
-        boolean loop = false;
-        while (loop) {
+    void confirmLoop() {
+        if (ubah == 'Y' || ubah == 'y') {
+            randomNumber();
+        } else if (ubah == 'n' || ubah == 'N') {
+            //sort();
+        } else {
+            System.out.println("Masukkan salah, silahkan ");
 
         }
-    } // func. swap dan sort serta kurangi hp
-
+    }
 }

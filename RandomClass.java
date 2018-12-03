@@ -44,9 +44,11 @@ public class RandomClass {
 
         LinkedList<House> charaTry = new LinkedList<House>();
         charaTry.add(new House("medium", 200));
+        System.out.println(charaTry.element().size);
         charaTry.add(new House("small", 100));
         charaTry.add(new House("big", 300));
-        System.out.println(charaTry); //show the linkedlist
+        System.out.println(charaTry);
+       
 
         // sort in ascending order
         Collections.sort(charaTry);

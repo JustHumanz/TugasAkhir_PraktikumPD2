@@ -17,7 +17,6 @@ public class Survive {
     public static void main(String[] args) {
         Game_Engine mainkan = new Game_Engine();
         mainkan.menu();
-        
     }
     
 }
