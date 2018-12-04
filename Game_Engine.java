@@ -217,7 +217,31 @@ public class Game_Engine {
 
         }
     }
+    
+    void sort() {
+        Game_Engine run = new Game_Engine();
+        HashMap<Integer, Object> charaSort = new HashMap<Integer, Object>();
+         charaSort.put(temp, charaHash.get(current));
+         for (int g=0;g<=5 ;g++ ) {
+           if (g==selector) {
+               continue;
+           }
+           Random random = new Random();
+           int x = random.nextInt(5) + 1;
+           charaSort.put(x, charaHash.get(g));
+         }
 
+         Map<Integer, Object> map = new TreeMap<Integer, Object>(charaSort);
+         System.out.println("After Sorting:");
+         Set set2 = map.entrySet();
+         Iterator iterator2 = set2.iterator();
+         while(iterator2.hasNext()) {
+         Map.Entry me2 = (Map.Entry)iterator2.next();
+         System.out.print(me2.getKey() + ": ");
+         System.out.println(me2.getValue());
+          }
+    
+    
     void confirmLoop() {
         if (ubah == 'Y' || ubah == 'y') {
             randomNumber();
