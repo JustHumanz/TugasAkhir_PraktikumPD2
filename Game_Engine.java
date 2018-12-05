@@ -226,6 +226,7 @@ public class Game_Engine {
            if (g==selector) {
                continue;
            }
+           charaSort.put(temp, charaHash.get(current));
            Random random = new Random();
            int x = random.nextInt(5) + 1;
            charaSort.put(x, charaHash.get(g));
